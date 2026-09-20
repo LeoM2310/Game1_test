@@ -1,49 +1,81 @@
-let User_Selection= prompt("Choose: rock, paper, scissors!").toLocaleLowerCase();
-console.log("User has selected: " + User_Selection);
 
-switch(User_Selection){
-    case "rock":
-        User_Selection = 1;
-        break;
-    case "paper":
-        User_Selection = 2;
-        break;
-    case "scissors":
-        User_Selection = 3;
-        break;
+//GETTING HUMAN AND COMPUTER CHOCICES
+function getComputerChoice(){
+    let result= Math.floor(Math.random()*3)+1;
+    return result;
 }
 
-function Game(){
-    let PC_Selection= Math.floor(Math.random()*3) +1;
+function getHumanChoice(){
+    let choice= prompt("Choose: rock, paper, scissors.").toLowerCase();
+    return choice
+}
 
-    switch(PC_Selection){
+
+
+//CHOICES DECLARATIONS
+
+let humanSelection;
+let computerSelection;
+
+
+function playGame(){
+
+function playRound (humanChoice, computerChoice){
+
+//SWITCHING COMPUTER CHOICES FROM NUMBERS TO STRING
+    switch (computerChoice){
         case 1:
-            console.log("PC has selected: rock");
+            computerChoice = "rock"
             break;
         case 2:
-            console.log("PC has selected: paper");
+            computerChoice = "paper"
             break;
         case 3:
-            console.log("PC has selected: scissors");
+            computerChoice = "scissors"
             break;
     }
 
-    return PC_Selection;
-};
+    console.log("PC has selected: " + computerChoice);
+    console.log("Human has selected: " + humanChoice);
 
-function PlayGame(){
-    let PC_Selection= Game();
-    if (User_Selection === PC_Selection + 1 || User_Selection === PC_Selection - 2){
-        console.log("User has won!")
-    }else if(User_Selection === PC_Selection){
-        console.log("User and PC are tied");
-    }else if(PC_Selection === User_Selection + 1 || PC_Selection === User_Selection - 2){
-        console.log("PC has won!")
+//GAME LOGIC
+    if (computerChoice === humanChoice ){
+        console.log("Draw, " + computerChoice + " and " + humanChoice + " are equals!");
+    }else if (computerChoice === "rock" && humanChoice === "paper" 
+        || (computerChoice === "scissors" && humanChoice === "rock")
+        || (computerChoice === "paper" && humanChoice === "scissors")){
+        console.log("You win, " + humanChoice + " beats " + computerChoice + "!");
+        humanScore++;
+        return humanScore;
     }else{
-        console.log("Wrong Selection, try again")
+        console.log("You lose, " + computerChoice + " beats " + humanChoice + "!");
+        computerScore++;
+        return computerScore;
     }
 }
+//SCORE VARIABLES
+    let humanScore = 0;
+    let computerScore= 0;
 
-PlayGame();
+//LOOP BLOCK
+    let rounds= 0;      
+    while (rounds < 5){
+        humanSelection= getHumanChoice();
+        computerSelection= getComputerChoice();
+        playRound(humanSelection, computerSelection);
+        rounds++;
+    }
 
 
+//FINAL RESULT    
+    if(humanScore > computerScore){
+        finalResult= console.log("You have won the game!");
+    }else if (humanScore === computerScore){
+        finalResult= console.log("You and the computer are tied!");
+    }else {
+        finalResult= console.log("You have lost the game, loser!");
+    }
+    return finalResult;
+}
+
+playGame();
